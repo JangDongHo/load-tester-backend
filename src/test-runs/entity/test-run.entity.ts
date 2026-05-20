@@ -1,0 +1,38 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import type { TestRunStatus } from '../type/test-runs.types';
+
+@Entity({ name: 'test_runs' })
+export class TestRun {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column({ name: 'scenario_name', type: 'text' })
+  scenarioName!: string;
+
+  @Column({ name: 'target_url', type: 'text' })
+  targetUrl!: string;
+
+  @Column({ name: 'virtual_users', type: 'integer' })
+  virtualUsers!: number;
+
+  @Column({ name: 'duration_sec', type: 'integer' })
+  durationSec!: number;
+
+  @Column({ name: 'ramp_up_sec', type: 'integer' })
+  rampUpSec!: number;
+
+  @Column({ type: 'text' })
+  status!: TestRunStatus;
+
+  @Column({ name: 'requested_at', type: 'text' })
+  requestedAt!: string;
+
+  @Column({ name: 'started_at', type: 'text', nullable: true })
+  startedAt!: string | null;
+
+  @Column({ name: 'finished_at', type: 'text', nullable: true })
+  finishedAt!: string | null;
+
+  @Column({ name: 'error_message', type: 'text', nullable: true })
+  errorMessage!: string | null;
+}
