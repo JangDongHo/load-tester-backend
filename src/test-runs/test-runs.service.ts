@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTestRunDto } from './dto/create-test-run.dto';
 import { TestRunsRepository } from './test-runs.repository';
-import { FailureSummaryItem } from './type/test-runs.types';
 import { TestRun } from './entity/test-run.entity';
 
 @Injectable()

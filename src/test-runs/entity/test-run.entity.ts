@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import type { TestRunStatus } from '../type/test-runs.types';
+import { TestRunStatus } from '../enum/test-run-status.enum';
 
 @Entity({ name: 'test_runs' })
 export class TestRun {

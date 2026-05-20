@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateTestRunDto } from './dto/create-test-run.dto';
 import { TestRun } from './entity/test-run.entity';
 import { TestRunResult } from './entity/test-run-result.entity';
+import { TestRunStatus } from './enum/test-run-status.enum';
 
 @Injectable()
 export class TestRunsRepository {
@@ -21,7 +22,7 @@ export class TestRunsRepository {
       virtualUsers: input.virtualUsers,
       durationSec: input.durationSec,
       rampUpSec: input.rampUpSec,
-      status: 'PENDING',
+      status: TestRunStatus.PENDING,
       requestedAt,
     });
 
