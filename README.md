@@ -37,10 +37,10 @@
 ### 2. 상태 관리
 
 - 실행은 다음 상태를 가진다.
-    - `PENDING`
-    - `RUNNING`
-    - `SUCCESS`
-    - `FAILED`
+  - `PENDING`
+  - `RUNNING`
+  - `SUCCESS`
+  - `FAILED`
 - 상태는 작업 진행에 따라 순차적으로 변경되어야 하며, 실패 시 원인 메시지를 저장할 수 있어야 한다.
 
 ### 3. 결과 조회
