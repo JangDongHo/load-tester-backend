@@ -35,4 +35,22 @@ export class TestRun {
 
   @Column({ name: 'error_message', type: 'text', nullable: true })
   errorMessage!: string | null;
+
+  start(startedAt: string): void {
+    if (this.status !== TestRunStatus.PENDING) {
+      throw new Error('Only pending test runs can be started');
+    }
+
+    this.status = TestRunStatus.RUNNING;
+    this.startedAt = startedAt;
+  }
+
+  complete(finishedAt: string): void {
+    if (this.status !== TestRunStatus.RUNNING) {
+      throw new Error('Only running test runs can be completed');
+    }
+
+    this.status = TestRunStatus.SUCCESS;
+    this.finishedAt = finishedAt;
+  }
 }

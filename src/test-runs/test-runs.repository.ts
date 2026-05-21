@@ -47,6 +47,25 @@ export class TestRunsRepository {
     return testRun;
   }
 
+  async findOldestPending(): Promise<TestRun | null> {
+    const testRun = await this.testRunRepository.findOne({
+      where: {
+        status: TestRunStatus.PENDING,
+      },
+      order: {
+        requestedAt: 'ASC',
+        id: 'ASC',
+      },
+    });
+
+    return testRun;
+  }
+
+  async save(testRun: TestRun): Promise<TestRun> {
+    const savedTestRun = await this.testRunRepository.save(testRun);
+    return savedTestRun;
+  }
+
   async findResultByTestRunId(
     testRunId: number,
   ): Promise<TestRunResult | null> {
