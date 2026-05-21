@@ -20,6 +20,16 @@ describe('TestRun', () => {
     expect(testRun.finishedAt).toBe('2026-05-20T14:01:01.000Z');
   });
 
+  it('실행 중인 테스트 실행을 실패 상태로 변경한다', () => {
+    const testRun = createTestRun(TestRunStatus.RUNNING);
+
+    testRun.fail('network timeout', '2026-05-20T14:01:01.000Z');
+
+    expect(testRun.status).toBe(TestRunStatus.FAILED);
+    expect(testRun.errorMessage).toBe('network timeout');
+    expect(testRun.finishedAt).toBe('2026-05-20T14:01:01.000Z');
+  });
+
   it('대기 중이 아닌 테스트 실행을 시작하면 예외를 던진다', () => {
     const testRun = createTestRun(TestRunStatus.RUNNING);
 
@@ -34,6 +44,14 @@ describe('TestRun', () => {
     expect(() => testRun.complete('2026-05-20T14:01:01.000Z')).toThrow(
       '실행 중인 테스트 실행만 완료할 수 있습니다.',
     );
+  });
+
+  it('실행 중이 아닌 테스트 실행을 실패 처리하면 예외를 던진다', () => {
+    const testRun = createTestRun(TestRunStatus.PENDING);
+
+    expect(() =>
+      testRun.fail('network timeout', '2026-05-20T14:01:01.000Z'),
+    ).toThrow('실행 중인 테스트 실행만 실패 처리할 수 있습니다.');
   });
 
   function createTestRun(status: TestRunStatus): TestRun {

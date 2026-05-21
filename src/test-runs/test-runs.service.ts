@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { roundToOneDecimal } from '../common/utils/number.util';
 import { CreateTestRunDto } from './dto/create-test-run.dto';
 import { TestRunsRepository } from './test-runs.repository';
 import { TestRun } from './entity/test-run.entity';
+import { FailureSummaryItem } from './type/test-runs.types';
 
 @Injectable()
 export class TestRunsService {
@@ -33,7 +35,19 @@ export class TestRunsService {
 
   async findById(testRunId: number) {
     const testRun = await this.getTestRun(testRunId);
-    return testRun;
+    return {
+      testRunId: testRun.id,
+      scenarioName: testRun.scenarioName,
+      targetUrl: testRun.targetUrl,
+      virtualUsers: testRun.virtualUsers,
+      durationSec: testRun.durationSec,
+      rampUpSec: testRun.rampUpSec,
+      status: testRun.status,
+      requestedAt: testRun.requestedAt,
+      startedAt: testRun.startedAt,
+      finishedAt: testRun.finishedAt,
+      errorMessage: testRun.errorMessage,
+    };
   }
 
   async findResult(testRunId: number) {
@@ -46,16 +60,20 @@ export class TestRunsService {
       throw new NotFoundException('테스트 실행 결과를 찾을 수 없습니다.');
     }
 
+    const failureSummary = JSON.parse(
+      result.failureSummaryJson,
+    ) as unknown as FailureSummaryItem[];
+
     return {
       testRunId: testRun.id,
       status: testRun.status,
       totalRequests: result.totalRequests,
       successCount: result.successCount,
       failureCount: result.failureCount,
-      averageLatencyMs: result.averageLatencyMs,
-      p95LatencyMs: result.p95LatencyMs,
-      maxLatencyMs: result.maxLatencyMs,
-      failureSummary: null,
+      averageLatencyMs: roundToOneDecimal(result.averageLatencyMs),
+      p95LatencyMs: roundToOneDecimal(result.p95LatencyMs),
+      maxLatencyMs: roundToOneDecimal(result.maxLatencyMs),
+      failureSummary,
     };
   }
 

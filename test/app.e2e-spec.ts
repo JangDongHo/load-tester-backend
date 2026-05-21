@@ -78,12 +78,13 @@ describe('TestRunsController (e2e)', () => {
       })
       .expect(400);
 
-    expect(response.body).toMatchObject({
-      message: expect.arrayContaining([
+    const body = response.body as unknown as { message: unknown };
+    expect(body.message).toEqual(
+      expect.arrayContaining([
         '대상 URL 형식이 올바르지 않습니다.',
         '가상 사용자 수는 1 이상이어야 합니다.',
       ]),
-    });
+    );
   });
 
   it('테스트 실행 목록을 최신 요청 순으로 조회한다', async () => {

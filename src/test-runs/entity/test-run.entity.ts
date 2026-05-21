@@ -53,4 +53,14 @@ export class TestRun {
     this.status = TestRunStatus.SUCCESS;
     this.finishedAt = finishedAt;
   }
+
+  fail(errorMessage: string, finishedAt: string): void {
+    if (this.status !== TestRunStatus.RUNNING) {
+      throw new Error('실행 중인 테스트 실행만 실패 처리할 수 있습니다.');
+    }
+
+    this.status = TestRunStatus.FAILED;
+    this.errorMessage = errorMessage;
+    this.finishedAt = finishedAt;
+  }
 }

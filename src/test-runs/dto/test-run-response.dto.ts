@@ -29,7 +29,7 @@ export class TestRunSummaryResponseDto extends CreateTestRunResponseDto {
 
 export class TestRunResponseDto {
   @ApiProperty({ example: 1, description: '테스트 실행 ID' })
-  id!: number;
+  testRunId!: number;
 
   @ApiProperty({
     example: 'login-stress-test',

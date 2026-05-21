@@ -1,6 +1,7 @@
 import { TestRunsRepository } from './test-runs.repository';
 import { TestRunsService } from './test-runs.service';
 import { TestRun } from './entity/test-run.entity';
+import { TestRunResult } from './entity/test-run-result.entity';
 import { TestRunStatus } from './enum/test-run-status.enum';
 
 describe('TestRunsService', () => {
@@ -65,6 +66,33 @@ describe('TestRunsService', () => {
     await expect(service.findResult(1)).rejects.toThrow(
       '테스트 실행 결과를 찾을 수 없습니다.',
     );
+  });
+
+  it('테스트 실행 결과의 지연 시간을 소수점 한 자리로 반올림한다', async () => {
+    repository.findById.mockResolvedValue(createTestRun());
+    repository.findResultByTestRunId.mockResolvedValue(
+      Object.assign(new TestRunResult(), {
+        id: 1,
+        testRunId: 1,
+        totalRequests: 100,
+        successCount: 96,
+        failureCount: 4,
+        averageLatencyMs: 189.42666666666668,
+        p95LatencyMs: 288,
+        maxLatencyMs: 299,
+        failureSummaryJson: JSON.stringify([
+          { reason: 'SIMULATED_5XX', count: 4 },
+        ]),
+      }),
+    );
+
+    const response = await service.findResult(1);
+
+    expect(response).toMatchObject({
+      averageLatencyMs: 189.4,
+      p95LatencyMs: 288,
+      maxLatencyMs: 299,
+    });
   });
 
   function createTestRun(): TestRun {
