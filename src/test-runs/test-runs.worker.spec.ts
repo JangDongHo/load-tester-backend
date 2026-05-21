@@ -17,7 +17,7 @@ describe('TestRunsWorker', () => {
     worker = new TestRunsWorker(repository as unknown as TestRunsRepository);
   });
 
-  it('does nothing when there is no pending test run', async () => {
+  it('대기 중인 테스트 실행이 없으면 아무 작업도 하지 않는다', async () => {
     repository.findOldestPending.mockResolvedValue(null);
 
     await worker.handlePendingTestRun();
@@ -25,7 +25,7 @@ describe('TestRunsWorker', () => {
     expect(repository.save).not.toHaveBeenCalled();
   });
 
-  it('saves running status before saving success status', async () => {
+  it('실행 상태를 저장한 뒤 성공 상태를 저장한다', async () => {
     const testRun = createTestRun(TestRunStatus.PENDING);
     const savedStatuses: TestRunStatus[] = [];
     repository.findOldestPending.mockResolvedValue(testRun);
@@ -45,7 +45,7 @@ describe('TestRunsWorker', () => {
     expect(testRun.finishedAt).toEqual(expect.any(String));
   });
 
-  it('skips duplicated ticks while a test run is being processed', async () => {
+  it('테스트 실행 처리 중에는 중복 틱을 건너뛴다', async () => {
     let resolveFindOldestPending: (testRun: TestRun | null) => void;
     const findOldestPendingPromise = new Promise<TestRun | null>((resolve) => {
       resolveFindOldestPending = resolve;

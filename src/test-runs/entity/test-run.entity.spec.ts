@@ -2,7 +2,7 @@ import { TestRunStatus } from '../enum/test-run-status.enum';
 import { TestRun } from './test-run.entity';
 
 describe('TestRun', () => {
-  it('starts a pending test run', () => {
+  it('대기 중인 테스트 실행을 시작 상태로 변경한다', () => {
     const testRun = createTestRun(TestRunStatus.PENDING);
 
     testRun.start('2026-05-20T14:00:01.000Z');
@@ -11,7 +11,7 @@ describe('TestRun', () => {
     expect(testRun.startedAt).toBe('2026-05-20T14:00:01.000Z');
   });
 
-  it('completes a running test run', () => {
+  it('실행 중인 테스트 실행을 성공 상태로 완료한다', () => {
     const testRun = createTestRun(TestRunStatus.RUNNING);
 
     testRun.complete('2026-05-20T14:01:01.000Z');
@@ -20,19 +20,19 @@ describe('TestRun', () => {
     expect(testRun.finishedAt).toBe('2026-05-20T14:01:01.000Z');
   });
 
-  it('throws when starting a test run that is not pending', () => {
+  it('대기 중이 아닌 테스트 실행을 시작하면 예외를 던진다', () => {
     const testRun = createTestRun(TestRunStatus.RUNNING);
 
     expect(() => testRun.start('2026-05-20T14:00:01.000Z')).toThrow(
-      'Only pending test runs can be started',
+      '대기 중인 테스트 실행만 시작할 수 있습니다.',
     );
   });
 
-  it('throws when completing a test run that is not running', () => {
+  it('실행 중이 아닌 테스트 실행을 완료하면 예외를 던진다', () => {
     const testRun = createTestRun(TestRunStatus.PENDING);
 
     expect(() => testRun.complete('2026-05-20T14:01:01.000Z')).toThrow(
-      'Only running test runs can be completed',
+      '실행 중인 테스트 실행만 완료할 수 있습니다.',
     );
   });
 

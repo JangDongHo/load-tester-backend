@@ -44,11 +44,11 @@ describe('TestRunsController (e2e)', () => {
     try {
       unlinkSync(databasePath);
     } catch {
-      // The database file may not exist if app initialization fails early.
+      // 앱 초기화가 일찍 실패하면 데이터베이스 파일이 없을 수 있다.
     }
   });
 
-  it('creates a pending test run', async () => {
+  it('대기 중인 테스트 실행을 생성한다', async () => {
     const response = await request(httpServer)
       .post('/test-runs')
       .send({
@@ -66,8 +66,8 @@ describe('TestRunsController (e2e)', () => {
     expect(typeof body.requestedAt).toBe('string');
   });
 
-  it('rejects invalid create requests', () => {
-    return request(httpServer)
+  it('올바르지 않은 생성 요청을 거절한다', async () => {
+    const response = await request(httpServer)
       .post('/test-runs')
       .send({
         scenarioName: 'login-stress-test',
@@ -77,9 +77,16 @@ describe('TestRunsController (e2e)', () => {
         rampUpSec: 10,
       })
       .expect(400);
+
+    expect(response.body).toMatchObject({
+      message: expect.arrayContaining([
+        '대상 URL 형식이 올바르지 않습니다.',
+        '가상 사용자 수는 1 이상이어야 합니다.',
+      ]),
+    });
   });
 
-  it('lists test runs by latest request first', async () => {
+  it('테스트 실행 목록을 최신 요청 순으로 조회한다', async () => {
     const first = await createTestRun('first-scenario');
     const second = await createTestRun('second-scenario');
 
@@ -102,7 +109,7 @@ describe('TestRunsController (e2e)', () => {
     expect(typeof earliest.requestedAt).toBe('string');
   });
 
-  it('gets a test run detail', async () => {
+  it('테스트 실행 상세를 조회한다', async () => {
     const testRunId = await createTestRun('detail-scenario');
 
     const response = await request(httpServer)
@@ -123,16 +130,26 @@ describe('TestRunsController (e2e)', () => {
     expect(typeof (body as Record<string, unknown>).requestedAt).toBe('string');
   });
 
-  it('returns 404 for missing test run detail', () => {
-    return request(httpServer).get('/test-runs/999999').expect(404);
+  it('없는 테스트 실행 상세 조회 시 404를 반환한다', async () => {
+    const response = await request(httpServer)
+      .get('/test-runs/999999')
+      .expect(404);
+
+    expect(response.body).toMatchObject({
+      message: '테스트 실행을 찾을 수 없습니다.',
+    });
   });
 
-  it('returns 404 when a test run result does not exist yet', async () => {
+  it('테스트 실행 결과가 아직 없으면 404를 반환한다', async () => {
     const testRunId = await createTestRun('pending-result-scenario');
 
-    return request(httpServer)
+    const response = await request(httpServer)
       .get(`/test-runs/${testRunId}/result`)
       .expect(404);
+
+    expect(response.body).toMatchObject({
+      message: '테스트 실행 결과를 찾을 수 없습니다.',
+    });
   });
 
   async function createTestRun(scenarioName: string): Promise<number> {

@@ -7,17 +7,17 @@ export class CreateTestRunDto {
     example: 'login-stress-test',
     description: '테스트 시나리오 이름',
   })
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: '시나리오 이름은 문자열이어야 합니다.' })
+  @IsNotEmpty({ message: '시나리오 이름은 필수입니다.' })
   scenarioName!: string;
 
   @ApiProperty({
     example: 'https://example.com/api/login',
     description: '부하 테스트 대상 URL',
   })
-  @IsString()
-  @IsNotEmpty()
-  @IsUrl()
+  @IsString({ message: '대상 URL은 문자열이어야 합니다.' })
+  @IsNotEmpty({ message: '대상 URL은 필수입니다.' })
+  @IsUrl({}, { message: '대상 URL 형식이 올바르지 않습니다.' })
   targetUrl!: string;
 
   @ApiProperty({
@@ -26,8 +26,8 @@ export class CreateTestRunDto {
     description: '가상 사용자 수',
   })
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
+  @IsInt({ message: '가상 사용자 수는 정수여야 합니다.' })
+  @Min(1, { message: '가상 사용자 수는 1 이상이어야 합니다.' })
   virtualUsers!: number;
 
   @ApiProperty({
@@ -36,8 +36,8 @@ export class CreateTestRunDto {
     description: '테스트 지속 시간(초)',
   })
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
+  @IsInt({ message: '테스트 지속 시간은 정수여야 합니다.' })
+  @Min(1, { message: '테스트 지속 시간은 1초 이상이어야 합니다.' })
   durationSec!: number;
 
   @ApiProperty({
@@ -46,7 +46,7 @@ export class CreateTestRunDto {
     description: '램프업 시간(초)',
   })
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
+  @IsInt({ message: '램프업 시간은 정수여야 합니다.' })
+  @Min(1, { message: '램프업 시간은 1초 이상이어야 합니다.' })
   rampUpSec!: number;
 }

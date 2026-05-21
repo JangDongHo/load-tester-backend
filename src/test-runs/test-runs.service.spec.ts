@@ -1,7 +1,7 @@
-import { NotFoundException } from '@nestjs/common';
 import { TestRunsRepository } from './test-runs.repository';
 import { TestRunsService } from './test-runs.service';
 import { TestRun } from './entity/test-run.entity';
+import { TestRunStatus } from './enum/test-run-status.enum';
 
 describe('TestRunsService', () => {
   let repository: jest.Mocked<
@@ -22,7 +22,7 @@ describe('TestRunsService', () => {
     service = new TestRunsService(repository as unknown as TestRunsRepository);
   });
 
-  it('creates a pending test run', async () => {
+  it('대기 중인 테스트 실행을 생성한다', async () => {
     repository.create.mockResolvedValue(createTestRun());
 
     const response = await service.create({
@@ -50,32 +50,36 @@ describe('TestRunsService', () => {
     );
   });
 
-  it('throws not found when a test run does not exist', async () => {
+  it('테스트 실행이 없으면 찾을 수 없음 예외를 던진다', async () => {
     repository.findById.mockResolvedValue(null);
 
-    await expect(service.findById(999999)).rejects.toThrow(NotFoundException);
+    await expect(service.findById(999999)).rejects.toThrow(
+      '테스트 실행을 찾을 수 없습니다.',
+    );
   });
 
-  it('throws not found when a result does not exist yet', async () => {
+  it('결과가 아직 없으면 찾을 수 없음 예외를 던진다', async () => {
     repository.findById.mockResolvedValue(createTestRun());
     repository.findResultByTestRunId.mockResolvedValue(null);
 
-    await expect(service.findResult(1)).rejects.toThrow(NotFoundException);
+    await expect(service.findResult(1)).rejects.toThrow(
+      '테스트 실행 결과를 찾을 수 없습니다.',
+    );
   });
 
   function createTestRun(): TestRun {
-    return {
+    return Object.assign(new TestRun(), {
       id: 1,
       scenarioName: 'login-stress-test',
       targetUrl: 'https://example.com/api/login',
       virtualUsers: 50,
       durationSec: 60,
       rampUpSec: 10,
-      status: 'PENDING',
+      status: TestRunStatus.PENDING,
       requestedAt: '2026-05-20T14:00:00.000Z',
       startedAt: null,
       finishedAt: null,
       errorMessage: null,
-    };
+    });
   }
 });

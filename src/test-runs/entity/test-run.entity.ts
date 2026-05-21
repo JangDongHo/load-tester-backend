@@ -38,7 +38,7 @@ export class TestRun {
 
   start(startedAt: string): void {
     if (this.status !== TestRunStatus.PENDING) {
-      throw new Error('Only pending test runs can be started');
+      throw new Error('대기 중인 테스트 실행만 시작할 수 있습니다.');
     }
 
     this.status = TestRunStatus.RUNNING;
@@ -47,7 +47,7 @@ export class TestRun {
 
   complete(finishedAt: string): void {
     if (this.status !== TestRunStatus.RUNNING) {
-      throw new Error('Only running test runs can be completed');
+      throw new Error('실행 중인 테스트 실행만 완료할 수 있습니다.');
     }
 
     this.status = TestRunStatus.SUCCESS;

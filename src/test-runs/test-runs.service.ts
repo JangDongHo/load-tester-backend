@@ -43,7 +43,7 @@ export class TestRunsService {
       await this.testRunsRepository.findResultByTestRunId(testRunId);
 
     if (!result) {
-      throw new NotFoundException('Test run result not found');
+      throw new NotFoundException('테스트 실행 결과를 찾을 수 없습니다.');
     }
 
     return {
@@ -63,7 +63,7 @@ export class TestRunsService {
     const testRun = await this.testRunsRepository.findById(testRunId);
 
     if (!testRun) {
-      throw new NotFoundException('Test run not found');
+      throw new NotFoundException('테스트 실행을 찾을 수 없습니다.');
     }
 
     return testRun;
