@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@duckdb/node-api':
+        specifier: 1.5.3-r.1
+        version: 1.5.3-r.1
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.1.21(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -313,6 +316,52 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
+
+  '@duckdb/node-api@1.5.3-r.1':
+    resolution: {integrity: sha512-Z68b/SfFoECdmVNis708kGoamabox1NezejKyU6bPucoTig8DNTAVKU9R9gT4wl5c5qZ3RUy+jpe6F5Xa6Z3Iw==}
+
+  '@duckdb/node-bindings-darwin-arm64@1.5.3-r.1':
+    resolution: {integrity: sha512-r87Cc/NB3cC6Jfxh4wv/j2N1XUxm/dMoPa6QwdvOsU/KyU3IwDRed5hpAVIxbp7SYXs8IEnws3E/m+toNVZt2A==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@duckdb/node-bindings-darwin-x64@1.5.3-r.1':
+    resolution: {integrity: sha512-S/8JXK2OR5fzSKvWdpdOuLCuzv+TUxnhLxA8twXYEC09GqimW6DIdvLquOVuykvfbBpoImz8UJpA+zOIpqlHEQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@duckdb/node-bindings-linux-arm64-musl@1.5.3-r.1':
+    resolution: {integrity: sha512-gNcmx+ChrGW5Ykc446mV4P+IgaEDq8fO7Y8aYeGA+XRIdy2fpZCsjo99Vv5zUKlY0IuvGwM0WFUF03oA0KksBQ==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@duckdb/node-bindings-linux-arm64@1.5.3-r.1':
+    resolution: {integrity: sha512-bpa3d42iGTOZ2YOviUA/PGT/GGnnkmPR5W2hccAPEgfN2Doz1A7A5T899K9TIVCkdxwr7Xxoa7CiqMgzPgxdJg==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@duckdb/node-bindings-linux-x64-musl@1.5.3-r.1':
+    resolution: {integrity: sha512-ZVEofh6i8RKbbnAYJvU+/BatDW2tR3ee4Uvcm5b7lz53FWXsCyqh5Kh8LBRuUBq5rurOoWmrVry/g1i7wBZgjg==}
+    cpu: [x64]
+    os: [linux]
+
+  '@duckdb/node-bindings-linux-x64@1.5.3-r.1':
+    resolution: {integrity: sha512-gCuxN9jabTJVJnYq59n0ba5AR1nix17v5OT3VXNzx/iZldX1MH5Gihp8of7OTaQILGuZ+APqCASL3s5fBgrqFg==}
+    cpu: [x64]
+    os: [linux]
+
+  '@duckdb/node-bindings-win32-arm64@1.5.3-r.1':
+    resolution: {integrity: sha512-RHEfClLwLZo/aZrBKZn9ugZEnlB8ucnM61T+B9tYKCsz5RT29ueVVzyTLvuHemc5W3cZPki8xsohno8Txl6qeQ==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@duckdb/node-bindings-win32-x64@1.5.3-r.1':
+    resolution: {integrity: sha512-Ff6lenczCvN9g/3hjBKkn/bZe2DwxUOVrC+eNYZnqdSHcpGP6K4knV7eWIjEkOC5cZoki+Cwd822L3ivt22/5Q==}
+    cpu: [x64]
+    os: [win32]
+
+  '@duckdb/node-bindings@1.5.3-r.1':
+    resolution: {integrity: sha512-vDMuaEFd0JnboKdDw8hSN47OS0u3hw++YCCApPM3uYCFFuIK0RKXTqKe0pTLEMo4IIv3qVJym/rpDhqPLMUEuA==}
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -3509,6 +3558,47 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+
+  '@duckdb/node-api@1.5.3-r.1':
+    dependencies:
+      '@duckdb/node-bindings': 1.5.3-r.1
+
+  '@duckdb/node-bindings-darwin-arm64@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings-darwin-x64@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings-linux-arm64-musl@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings-linux-arm64@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings-linux-x64-musl@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings-linux-x64@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings-win32-arm64@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings-win32-x64@1.5.3-r.1':
+    optional: true
+
+  '@duckdb/node-bindings@1.5.3-r.1':
+    dependencies:
+      detect-libc: 2.1.2
+    optionalDependencies:
+      '@duckdb/node-bindings-darwin-arm64': 1.5.3-r.1
+      '@duckdb/node-bindings-darwin-x64': 1.5.3-r.1
+      '@duckdb/node-bindings-linux-arm64': 1.5.3-r.1
+      '@duckdb/node-bindings-linux-arm64-musl': 1.5.3-r.1
+      '@duckdb/node-bindings-linux-x64': 1.5.3-r.1
+      '@duckdb/node-bindings-linux-x64-musl': 1.5.3-r.1
+      '@duckdb/node-bindings-win32-arm64': 1.5.3-r.1
+      '@duckdb/node-bindings-win32-x64': 1.5.3-r.1
 
   '@emnapi/core@1.10.0':
     dependencies:
